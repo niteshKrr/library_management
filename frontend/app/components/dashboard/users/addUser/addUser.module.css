@@ -1,0 +1,121 @@
+.container {
+    background-color: var(--bgSoft);
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 20px;
+  }
+  
+  .form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  
+  .other_input {
+    padding: 20px;
+    background-color: var(--bg);
+    color: var(--text);
+    border: 2px solid #2e374a;
+    border-radius: 5px;
+    width: 45%;
+    margin-bottom: 30px;
+  }
+  
+  .total_books_input {
+    font-size: 18px;
+    width: 35%;
+    height:68%;
+    /* padding: 20px; */
+    text-align: center;
+    background-color: var(--bg);
+    color: var(--text);
+    border: 2px solid #2e374a;
+    margin: 0px 20px 30px 20px;
+    border-radius: 5px; 
+  }
+  
+  .submit_button{
+    width: 100%;
+    padding: 20px;
+    background-color: teal;
+    color: var(--text);
+    border: none;
+    margin: 80px 0px 0px 0px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .plus_button{
+    width: 20%;
+    height:66%;
+    padding: 10px;
+    background-color: teal;
+    color: var(--text);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .minus_button{
+    width: 20%;
+    height:66%;
+    padding: 10px;
+    background-color: teal;
+    color: var(--text);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .issued_book_container {
+    margin-bottom: 20px;
+  }
+  
+  .issued_book_input {
+    padding: 20px;
+    background-color: var(--bg);
+    color: var(--text);
+    border: 2px solid #2e374a;
+    border-radius: 5px;
+    width: 72%;
+  }
+  
+  .issued_book_button {
+    width: 25%;
+    margin-left: 10px;
+    padding: 20px;
+    background-color: teal;
+    color: var(--text);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .parent_modal_Class {
+    margin-top: 10px;
+  } 
+  
+  /* .modal_Class {
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 4px;
+  } */
+  
+  .modal_Class div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    padding: 4px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .modal_Class button {
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    padding: 3px;
+  }
