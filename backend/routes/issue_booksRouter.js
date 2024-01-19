@@ -53,7 +53,7 @@ const sendEmail = async ({ name, books_id, total_books, email }) => {
   });
 
   await transporter.sendMail({
-    from: '"LNJPIT Library🚀🔥"',
+    from: '"LNJPIT Library🚀🔥" libraryLNJPIT@gmail.com',
     to: email,
     subject: `Books Issued - ${name}`,
     html: generateEmailTemplate({ name, books_id, total_books }),
