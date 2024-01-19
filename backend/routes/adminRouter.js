@@ -3,7 +3,7 @@ const express = require("express");
 const router = new express.Router();
 
 
-router.post("/admin", (req, res) => {
+router.post("/", (req, res) => {
   //   console.log(req.body);
   const user = new Admin(req.body);
   user

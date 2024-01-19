@@ -1,47 +1,137 @@
-import { updateUser } from "../../../lib/actions";
-import { fetchUser } from "../../../lib/data";
+"use client";
+
 import styles from "../../../components/dashboard/users/singleUser/singleUser.module.css";
 import Image from "next/image";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import Swal from "sweetalert2";
 
-const SingleUserPage = async ({ params }) => {
-  
-  const { id } = params;
-  const user = await fetchUser(id);
+const SingleUserPage = ({ params }) => {
+  const [user, setUser] = useState({});
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [reg_roll, setReg_roll] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const updatedData = {
+    name,
+    email,
+    phone,
+    reg_roll,
+  };
+
+  const handleUpdateUser = (userId, updatedData) => {
+    setLoading(true);
+    axios
+      .put(`http://localhost:4000/dashboard/students/${userId}`, updatedData)
+      .then((response) => {
+        setLoading(false);
+        Swal.fire({
+          title: "Done",
+          text: "User has been updated successfully",
+          icon: "success",
+          confirmButtonColor: "#D6465B",
+        });
+        setUser(response.data.updatedUser);
+        setName("");
+        setEmail("");
+        setPhone("");
+        setReg_roll("");
+      })
+      .catch((error) => {
+        setLoading(false);
+        console.error(error);
+        Swal.fire({
+          title: "Error",
+          text: "Failed to update user. Please try again.",
+          icon: "error",
+          confirmButtonColor: "#D6465B",
+        });
+      });
+  };
+
+  useEffect(() => {
+    if (!user || Object.keys(user).length === 0) {
+      setLoading(true);
+
+      axios
+        .get(`http://localhost:4000/dashboard/students/${params.id}`)
+        .then((response) => {
+          setUser(response.data.user);
+          setLoading(false);
+        })
+        .catch((error) => {
+          setLoading(false);
+          console.error(error);
+          Swal.fire({
+            title: "Error",
+            text: "Failed to fetch user details. Please try again.",
+            icon: "error",
+            confirmButtonColor: "#D6465B",
+          });
+        });
+    }
+  }, [params.id, user]);
 
   return (
     <div className={styles.container}>
-      <div className={styles.infoContainer}>
-        <div className={styles.imgContainer}>
-          <Image src={"/noavatar.png"} alt="loading..." fill />
+      {loading && (
+        <div className=" justify-center grid h-screen place-items-center">
+          <div className="loader w-10"></div>
         </div>
-        {user.username}
-      </div>
-      <div className={styles.formContainer}>
-        <form action={updateUser} className={styles.form}>
-          <input type="hidden" name="id" value={user.id}/>
-          <label>Username</label>
-          <input type="text" name="username" placeholder={user.username} />
-          <label>Email</label>
-          <input type="email" name="email" placeholder={user.email} />
-          <label>Password</label>
-          <input type="password" name="password" />
-          <label>Phone</label>
-          <input type="text" name="phone" placeholder={user.phone} />
-          <label>Address</label>
-          <textarea type="text" name="address" placeholder={user.address} />
-          <label>Is Admin?</label>
-          <select name="isAdmin" id="isAdmin">
-            <option value={true} selected={user.isAdmin}>Yes</option>
-            <option value={false} selected={!user.isAdmin}>No</option>
-          </select>
-          <label>Is Active?</label>
-          <select name="isActive" id="isActive">
-            <option value={true} selected={user.isActive}>Yes</option>
-            <option value={false} selected={!user.isActive}>No</option>
-          </select>
-          <button>Update</button>
-        </form>
-      </div>
+      )}
+      {!loading && user && (
+        <>
+          <div className={styles.infoContainer}>
+            <div className={styles.imgContainer}>
+              <Image src={"/noavatar.png"} alt="loading..." fill />
+            </div>
+            {user.name}
+          </div>
+          <div className={styles.formContainer}>
+            <div className={styles.formContainer}>
+              <div className={styles.form}>
+                <label>Name</label>
+                <input
+                  onChange={(e) => setName(e.target.value)}
+                  type="text"
+                  value={name}
+                  placeholder={name || (user ? user.name : "Enter Name")}
+                />
+                <label>Email</label>
+                <input
+                  onChange={(e) => setEmail(e.target.value)}
+                  type="email"
+                  value={email}
+                  placeholder={user ? user.email : "Enter Email"}
+                />
+                <label>Reg no./Roll no.</label>
+                <input
+                  onChange={(e) => setReg_roll(e.target.value)}
+                  value={reg_roll}
+                  type="text"
+                  name="password"
+                  placeholder={user ? user.reg_roll : "Enter Reg/Roll No."}
+                />
+                <label>Phone</label>
+                <input
+                  onChange={(e) => setPhone(e.target.value)}
+                  value={phone}
+                  type="text"
+                  name="phone"
+                  placeholder={user ? user.phone : "Enter Phone"}
+                />
+                <button
+                  onClick={() => handleUpdateUser(params.id, updatedData)}
+                >
+                  Update
+                </button>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 };

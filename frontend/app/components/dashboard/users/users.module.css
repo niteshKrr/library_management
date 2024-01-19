@@ -59,3 +59,18 @@
   .delete{
     background-color: crimson;
   }
+
+  .status{
+    border-radius: 5px;
+    padding: 5px;
+    font-size: 14px;
+    color: white;
+  }
+
+  .pending{
+    background-color: #f7cb7375;
+  }
+  
+  .done{
+    background-color: #afd6ee75;
+  }

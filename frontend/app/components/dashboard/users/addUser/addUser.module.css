@@ -21,33 +21,20 @@
     margin-bottom: 30px;
   }
   
-  .total_books_input {
-    font-size: 18px;
-    width: 35%;
-    height:68%;
-    /* padding: 20px; */
-    text-align: center;
-    background-color: var(--bg);
-    color: var(--text);
-    border: 2px solid #2e374a;
-    margin: 0px 20px 30px 20px;
-    border-radius: 5px; 
-  }
-  
   .submit_button{
     width: 100%;
     padding: 20px;
     background-color: teal;
     color: var(--text);
     border: none;
-    margin: 80px 0px 0px 0px;
+    margin: 60px 0px 0px 0px;
     border-radius: 5px;
     cursor: pointer;
   }
   
   .plus_button{
-    width: 20%;
-    height:66%;
+    width: 90px;
+    height: 68px;
     padding: 10px;
     background-color: teal;
     color: var(--text);
@@ -55,10 +42,28 @@
     border-radius: 5px;
     cursor: pointer;
   }
+
+  .total_books_input {
+    font-size: 18px;
+    width: 200px; 
+    height: 70px;
+    padding: 20px;
+    text-align: center;
+    background-color: var(--bg);
+    color: var(--text);
+    border: 2px solid #2e374a;
+    margin: 0px 20px 0px 20px;
+    border-radius: 5px; 
+  }
+
+  /* .total_books_given{
+    margin: 21px 20px 0px 0px;
+
+  } */
   
   .minus_button{
-    width: 20%;
-    height:66%;
+    width: 90px; 
+    height: 68px;
     padding: 10px;
     background-color: teal;
     color: var(--text);

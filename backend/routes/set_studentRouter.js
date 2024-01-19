@@ -2,8 +2,7 @@ const { Student } = require("../models/studentModel");
 const express = require("express");
 const router = new express.Router();
 
-
-router.post("/students/add", (req, res) => {
+router.post("/", (req, res) => {
   //   console.log(req.body);
   const user = new Student(req.body);
   user
@@ -16,5 +15,4 @@ router.post("/students/add", (req, res) => {
     });
 });
 
-
-module.exports = router
+module.exports = router;

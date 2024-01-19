@@ -14,6 +14,9 @@ const studentSchema = new mongoose.Schema(
     phone: {
       type: String,
     },
+    reg_roll: {
+      type: String,
+    },
     total_books: {
       type: Number,
     },
