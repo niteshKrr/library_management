@@ -6,6 +6,7 @@ const get_single_studentRouter = require("./routes/get_single_studentRouter");
 const delete_studentRouter = require("./routes/delete_studentRouter");
 const updated_studentRouter = require("./routes/update_studentRouter");
 const issue_booksRouter = require("./routes/issue_booksRouter");
+const return_booksRouter = require("./routes/return_bookRouter");
 const adminRouter = require("./routes/adminRouter");
 const express = require("express");
 const cors = require("cors");
@@ -26,6 +27,7 @@ app.use("/dashboard/students" , get_single_studentRouter);
 app.use("/dashboard/students" , delete_studentRouter);
 app.use("/dashboard/students" , updated_studentRouter);
 app.use("/dashboard/students/issue_books" , issue_booksRouter);
+app.use("/dashboard/students/return_books", return_booksRouter);
 app.use("/dashboard/admin" , adminRouter);
 
 

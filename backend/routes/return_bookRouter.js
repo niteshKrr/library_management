@@ -15,14 +15,29 @@ router.post("/", async (req, res) => {
       return res.status(404).json({ error: "User not found" });
     }
 
-    const updatedBooksId = [...user.books_id, ...books_id];
+    const isValidReturn = books_id.every((bookId) =>
+      user.books_id.includes(bookId)
+    );
+
+    if (!isValidReturn) {
+      return res
+        .status(400)
+        .json({
+          error:
+            "Invalid book return. Ensure the returning books that were issued.",
+        });
+    }
+
+    const updatedBooksId = user.books_id.filter(
+      (bookId) => !books_id.includes(bookId)
+    );
 
     await Student.updateOne(
       { email, reg_roll },
       { $set: { books_id: updatedBooksId } }
     );
 
-    const totalBooks = user.total_books + total_books;
+    const totalBooks = user.total_books - total_books;
 
     await Student.updateOne(
       { email, reg_roll },
@@ -37,14 +52,22 @@ router.post("/", async (req, res) => {
       email,
     });
 
-    res.status(200).send({ message: "Books issued successfully" });
+    res.status(200).send({ message: "Books returned successfully" });
   } catch (error) {
-    console.error("Error issuing books:", error);
-    res.status(500).send({ error: "Internal Server Error" });
+    console.error("Error returning books:", error);
+    res
+      .status(500)
+      .send({ error: "Internal Server Error", details: error.message });
   }
 });
 
-const sendEmail = async ({ name, books_id, total_books, totalBooks, email }) => {
+const sendEmail = async ({
+  name,
+  books_id,
+  total_books,
+  totalBooks,
+  email,
+}) => {
   const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
@@ -56,7 +79,7 @@ const sendEmail = async ({ name, books_id, total_books, totalBooks, email }) => 
   await transporter.sendMail({
     from: '"LNJPIT Library🚀🔥" libraryLNJPIT@gmail.com',
     to: email,
-    subject: `Books Issued - ${name}`,
+    subject: `Books Returned - ${name}`,
     html: generateEmailTemplate({ name, books_id, total_books, totalBooks }),
   });
 };
@@ -71,20 +94,18 @@ const generateEmailTemplate = ({ name, books_id, total_books, totalBooks }) => {
     <body>
       <div class="container">
         <h1>Hello, ${name}!</h1>
-        <p>We are excited to let you know that you have successfully issued books from the Library LNJPIT.</p>
+        <p>We hope you're doing well. This is to inform you that you have successfully returned books to the Library LNJPIT.</p>
         
-        <p><strong>Issued Books:</strong></p>
+        <p><strong>Returned Books:</strong></p>
         <ul>
           ${books_id.map((book) => `<li>${book}</li>`).join("")}
         </ul>
         
-        <p><strong>Current Issued Books:</strong> ${total_books}</p>
+        <p><strong>Current Returned Books:</strong> ${total_books}</p>
 
-        <p><strong>Total Issued Books:</strong> ${totalBooks}</p>
+        <p><strong>Remaining Books:</strong> ${totalBooks}</p>
 
-        <p>Please ensure to return the books on time to avoid any late fees.</p>
-
-        <p>Thank you for using the Library LNJPIT services. If you have any questions or need assistance, feel free to contact us.</p>
+        <p>Thank you for returning the books promptly. If you have any further inquiries or need assistance, feel free to contact us.</p>
 
         <p>Have a great day 😊</p>
 

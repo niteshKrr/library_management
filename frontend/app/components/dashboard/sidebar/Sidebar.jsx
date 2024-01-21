@@ -35,9 +35,9 @@ const menuItems = [
         icon: <MdShoppingBag />,
       },
       {
-        title: "Status",
-        path: "/dashboard/status",
-        icon: <MdAttachMoney />,
+        title: "Return Books",
+        path: "/dashboard/return_books",
+        icon: <MdWork />,
       },
     ],
   },
@@ -45,9 +45,9 @@ const menuItems = [
     title: "Analytics",
     list: [
       {
-        title: "Revenue",
-        path: "/dashboard/revenue",
-        icon: <MdWork />,
+        title: "Status",
+        path: "/dashboard/status",
+        icon: <MdAttachMoney />,
       },
       {
         title: "Reports",

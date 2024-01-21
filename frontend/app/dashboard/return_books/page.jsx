@@ -28,7 +28,7 @@ const IssueBooks = () => {
 
     setLoading(true);
     axios
-      .post(`http://localhost:4000/dashboard/students/issue_books`, {
+      .post(`http://localhost:4000/dashboard/students/return_books`, {
         email,
         reg_roll,
         total_books,
@@ -38,7 +38,7 @@ const IssueBooks = () => {
         setLoading(false);
         Swal.fire({
           title: "Done",
-          text: "Book Issued successfully",
+          text: "Books returned successfully",
           icon: "success",
           confirmButtonColor: "#D6465B",
         });
@@ -49,25 +49,36 @@ const IssueBooks = () => {
       })
       .catch((error) => {
         setLoading(false);
-        // console.log("Error returning books:", error.response);
-        if (error.response && error.response.status === 404) {
-          Swal.fire({
-            icon: "error",
-            title: "User Not Found",
-            text: "The user was not found. Please check the email and registration/roll number.",
-            confirmButtonColor: "#D6465B",
-          });
-        } else {
-          Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: "Something went wrong. Please try again later.",
-            confirmButtonColor: "#D6465B",
-          });
-        }
+          // console.log("Error returning books:", error.response);
+         if (error.response && error.response.status === 404) {
+           // Handle the case where the user is not found
+           Swal.fire({
+             icon: "error",
+             title: "User Not Found",
+             text: "The user was not found. Please check the email and registration/roll number.",
+             confirmButtonColor: "#D6465B",
+           });
+         } else if (
+           error.response &&
+           error.response.data &&
+           error.response.data.error
+         ) {
+           Swal.fire({
+             icon: "error",
+             title: "Oops...",
+             text: error.response.data.error,
+             confirmButtonColor: "#D6465B",
+           });
+         } else {
+           Swal.fire({
+             icon: "error",
+             title: "Oops...",
+             text: "Something went wrong. Please try again later.",
+             confirmButtonColor: "#D6465B",
+           });
+         }
       });
   };
-
 
   const add = () => {
     if (total_books === 4) {
@@ -166,7 +177,7 @@ const IssueBooks = () => {
 
         {loading === false ? (
           <button onClick={handleIssueBooks} className={styles.submit_button}>
-            Issue Books
+            Return Books
           </button>
         ) : (
           <button className={styles.submit_button}>

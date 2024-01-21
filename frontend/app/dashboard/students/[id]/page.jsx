@@ -14,17 +14,25 @@ const SingleUserPage = ({ params }) => {
   const [reg_roll, setReg_roll] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const updatedData = {
-    name,
-    email,
-    phone,
-    reg_roll,
-  };
+  const handleUpdateUser = (userId) => {
+    if (!email || !reg_roll || !phone || !reg_roll) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "All fields are necessary. Please fill in all required fields.",
+        confirmButtonColor: "#D6465B",
+      });
+      return;
+    }
 
-  const handleUpdateUser = (userId, updatedData) => {
     setLoading(true);
     axios
-      .put(`http://localhost:4000/dashboard/students/${userId}`, updatedData)
+      .put(`http://localhost:4000/dashboard/students/${userId}`, {
+        name,
+        email,
+        phone,
+        reg_roll,
+      })
       .then((response) => {
         setLoading(false);
         Swal.fire({
@@ -123,7 +131,7 @@ const SingleUserPage = ({ params }) => {
                   placeholder={user ? user.phone : "Enter Phone"}
                 />
                 <button
-                  onClick={() => handleUpdateUser(params.id, updatedData)}
+                  onClick={() => handleUpdateUser(params.id)}
                 >
                   Update
                 </button>

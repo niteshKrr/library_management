@@ -37,13 +37,25 @@ const Page = ({ searchParams }) => {
       });
   };
 
+  const calculateDueDate = (createdAt) => {
+    const issueDate = new Date(createdAt);
+    const dueDate = new Date(issueDate);
+    dueDate.setDate(issueDate.getDate() + 14); // Add 15 days to the issue date
+
+    const dd = String(dueDate.getDate()).padStart(2, "0");
+    const mm = String(dueDate.getMonth() + 1).padStart(2, "0"); // January is 0!
+    const yyyy = dueDate.getFullYear();
+
+    return `${dd}-${mm}-${yyyy}`;
+  };
+
   if (loading)
     return <p className="grid h-screen place-items-center">Loading...</p>;
   else
     return (
       <div className={styles.container}>
         <div className={styles.top}>
-          <Search placeholder="Search for a user..." />
+          <Search placeholder="Search through reg no./roll no." />
         </div>
         <table className={styles.table}>
           <thead>
@@ -53,7 +65,7 @@ const Page = ({ searchParams }) => {
               <td>Status</td>
               <td>Book issued</td>
               <td>Issue Date</td>
-              <td>Due Date</td>
+              <td>Due date after 15 days</td>
             </tr>
           </thead>
           <tbody>
@@ -73,16 +85,19 @@ const Page = ({ searchParams }) => {
                 </td>
                 <td>{user.reg_roll}</td>
                 <td>
-                    {user.total_books === 0 ? (<span className={`${styles.status} ${styles.done}`}>
-                    Done
-                  </span>) : (<span className={`${styles.status} ${styles.pending}`}>
-                    Pending
-                  </span>)}
-                  
+                  {user.total_books === 0 ? (
+                    <span className={`${styles.status} ${styles.done}`}>
+                      Done
+                    </span>
+                  ) : (
+                    <span className={`${styles.status} ${styles.pending}`}>
+                      Pending
+                    </span>
+                  )}
                 </td>
                 <td>{user.total_books}</td>
-                <td>{user.createdAt?.toString().slice(0, 10)}</td>
-                <td>$3.200</td>
+                <td>{user.createdAt?.toString().slice(0, 10).split('-').reverse().join('-')}</td>
+                <td>{calculateDueDate(user.createdAt)}</td>
               </tr>
             ))}
           </tbody>
