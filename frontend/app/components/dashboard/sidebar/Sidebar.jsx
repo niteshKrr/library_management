@@ -2,10 +2,13 @@ import React from "react";
 import MenuLink from "./menuLink/MenuLink";
 import Image from "next/image";
 import styles from "./sidebar.module.css";
+import { IoBookSharp } from "react-icons/io5";
+import { SiBookstack } from "react-icons/si";
+import { BsChatRight } from "react-icons/bs";
+import { IoHandRightOutline } from "react-icons/io5";
 import {
   MdDashboard,
   MdSupervisedUserCircle,
-  MdShoppingBag,
   MdAttachMoney,
   MdWork,
   MdAnalytics,
@@ -32,12 +35,12 @@ const menuItems = [
       {
         title: "Issue Books",
         path: "/dashboard/issue_books",
-        icon: <MdShoppingBag />,
+        icon: <IoBookSharp />,
       },
       {
         title: "Return Books",
         path: "/dashboard/return_books",
-        icon: <MdWork />,
+        icon: <SiBookstack />,
       },
     ],
   },
@@ -47,7 +50,7 @@ const menuItems = [
       {
         title: "Status",
         path: "/dashboard/status",
-        icon: <MdAttachMoney />,
+        icon: <BsChatRight />,
       },
       {
         title: "Reports",
