@@ -2,6 +2,31 @@
 @tailwind components;
 @tailwind utilities;
 
+body{
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  background-color: rgb(21,28,44);
+  color: aliceblue;
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.homeContainer{
+  width: 100%;
+  display: flex;
+  
+}
+
+.aboutUserGuideCnt{
+  margin-top: 30px;
+  width: 50%;
+}
+.ImageContainer{
+  width: 50%;
+}
+
 
 :root {
     --bg: #151c2c;

@@ -1,0 +1,31 @@
+
+.aboutContainer {
+  padding: 20px;
+  
+  border-radius: 8px;
+  text-align: center;
+  margin: 30px;
+}
+
+.adminButton {
+  width: 200px;
+  padding: 10px;
+  background-color: #3498db;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.updateButton {
+  margin-right: 20px;
+  width: 200px;
+  padding: 10px;
+  background-color: #27ae60;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* about.module.css */
