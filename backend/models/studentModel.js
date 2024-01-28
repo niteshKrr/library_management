@@ -25,6 +25,11 @@ const studentSchema = new mongoose.Schema(
         type: String,
       },
     ],
+    books_name: [
+      {
+        type: String,
+      },
+    ],
   },
   { timestamps: true }
 );

@@ -5,21 +5,17 @@ import { useState } from "react";
 import Swal from "sweetalert2";
 import axios from "axios";
 
-const AddUserPage = () => {
-  const [total_books, setTotal_books] = useState(0);
-  // const [value, setValue] = useState("");
-  const [books_id, setBooks_id] = useState([]);
-  const [books_name, setBooks_name] = useState([]);
+const AddBookPage = () => {
   const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [reg_roll, setReg_roll] = useState("");
+  const [author, setAuthor] = useState("");
+  const [publication, setPublication] = useState("");
+  const [quantity, setQuantity] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!name || !email || !phone || !reg_roll) {
+    if (!name || !author || !publication || !quantity) {
       Swal.fire({
         icon: "error",
         title: "Oops...",
@@ -30,27 +26,24 @@ const AddUserPage = () => {
     }
     setLoading(true);
     axios
-      .post(`http://localhost:4000/dashboard/students/add`, {
+      .post(`http://localhost:4000/dashboard/books/add`, {
         name,
-        email,
-        total_books,
-        books_id,
-        books_name,
-        reg_roll,
-        phone,
+        author,
+        publication,
+        quantity,
       })
       .then(() => {
         setLoading(false);
         Swal.fire({
           title: "Done",
-          text: "Student added successfully",
+          text: "Books added successfully",
           icon: "success",
           confirmButtonColor: "#D6465B",
         });
         setName("");
-        setEmail("");
-        setPhone("");
-        setReg_roll("");
+        setAuthor("");
+        setPublication("");
+        setQuantity("");
       })
       .catch((e) => {
         setLoading(false);
@@ -70,38 +63,38 @@ const AddUserPage = () => {
           onChange={(e) => setName(e.target.value)}
           className={styles.other_input}
           type="text"
-          placeholder="name"
+          placeholder="Book Name"
           value={name}
           required
         />
         <input
-          onChange={(e) => setEmail(e.target.value)}
-          className={styles.other_input}
-          type="email"
-          placeholder="email"
-          value={email}
-          required
-        />
-        <input
-          onChange={(e) => setReg_roll(e.target.value)}
-          value={reg_roll}
+          onChange={(e) => setAuthor(e.target.value)}
           className={styles.other_input}
           type="text"
-          placeholder="reg no./roll no."
+          placeholder="Author"
+          value={author}
           required
         />
         <input
-          onChange={(e) => setPhone(e.target.value)}
-          value={phone}
+          onChange={(e) => setPublication(e.target.value)}
+          value={publication}
           className={styles.other_input}
-          type="phone"
-          placeholder="phone"
+          type="text"
+          placeholder="Publication"
+          required
+        />
+        <input
+          onChange={(e) => setQuantity(e.target.value)}
+          value={quantity}
+          className={styles.other_input}
+          type="text"
+          placeholder="Quantity"
           required
         />
 
         {loading === false ? (
           <button onClick={handleSubmit} className={styles.submit_button}>
-            Add Student
+            Add Books
           </button>
         ) : (
           <button className={styles.submit_button}>
@@ -116,4 +109,4 @@ const AddUserPage = () => {
   );
 };
 
-export default AddUserPage;
+export default AddBookPage;

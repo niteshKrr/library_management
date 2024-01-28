@@ -5,12 +5,9 @@ import styles from "./sidebar.module.css";
 import { IoBookSharp } from "react-icons/io5";
 import { SiBookstack } from "react-icons/si";
 import { BsChatRight } from "react-icons/bs";
-import { IoHandRightOutline } from "react-icons/io5";
 import {
   MdDashboard,
   MdSupervisedUserCircle,
-  MdAttachMoney,
-  MdWork,
   MdAnalytics,
   MdPeople,
   MdOutlineSettings,
@@ -53,13 +50,13 @@ const menuItems = [
         icon: <BsChatRight />,
       },
       {
-        title: "Reports",
-        path: "/dashboard/reports",
+        title: "Add Books",
+        path: "/dashboard/books",
         icon: <MdAnalytics />,
       },
       {
-        title: "Teams",
-        path: "/dashboard/teams",
+        title: "Search Book",
+        path: "/dashboard/search_book",
         icon: <MdPeople />,
       },
     ],

@@ -8,11 +8,16 @@ import Swal from "sweetalert2";
 
 const SingleUserPage = ({ params }) => {
   const [user, setUser] = useState({});
+  const [books_id, setBooks_id] = useState([]);
+  const [books_name, setBooks_name] = useState([]);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [reg_roll, setReg_roll] = useState("");
   const [loading, setLoading] = useState(false);
+
+  // console.log("books_id",books_id);
+  // console.log("books_name", books_name);
 
   const handleUpdateUser = (userId) => {
     if (!email || !reg_roll || !phone || !reg_roll) {
@@ -67,6 +72,8 @@ const SingleUserPage = ({ params }) => {
         .get(`http://localhost:4000/dashboard/students/${params.id}`)
         .then((response) => {
           setUser(response.data.user);
+          setBooks_id(response.data.user.books_id);
+          setBooks_name(response.data.user.books_name);
           setLoading(false);
         })
         .catch((error) => {
@@ -98,6 +105,35 @@ const SingleUserPage = ({ params }) => {
             {user.name}
           </div>
           <div className={styles.formContainer}>
+            <hr></hr>
+            <div className="flex justify-around my-4">
+              <div className="text-center">
+                <div className="font-bold mb-2">Total Issued Books</div>
+                {user.total_books}
+              </div>
+
+              <div className="text-center">
+                <div className="font-bold mb-2">Issued Books Id</div>
+                <ul>
+                  {books_id.map((book) => (
+                    <li key={book} className="mb-1">
+                      {book}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="ml-5 text-center">
+                <div className="font-bold mb-2">Issued Books</div>
+                <ul>
+                  {books_name.map((book) => (
+                    <li key={book} className="mb-1">
+                      {book}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+            <hr></hr>
             <div className={styles.formContainer}>
               <div className={styles.form}>
                 <label>Name</label>
@@ -130,9 +166,7 @@ const SingleUserPage = ({ params }) => {
                   name="phone"
                   placeholder={user ? user.phone : "Enter Phone"}
                 />
-                <button
-                  onClick={() => handleUpdateUser(params.id)}
-                >
+                <button onClick={() => handleUpdateUser(params.id)}>
                   Update
                 </button>
               </div>

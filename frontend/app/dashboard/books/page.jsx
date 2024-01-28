@@ -5,31 +5,32 @@ import styles from "../../components/dashboard/users/users.module.css";
 import Image from "next/image";
 import Link from "next/link";
 import Pagination from "@/app/components/dashboard/pagination/Pagination";
+import { IoBookSharp } from "react-icons/io5";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
 
 const Page = ({ searchParams }) => {
-  const [students, setStudents] = useState([]);
+  const [books, setBooks] = useState([]);
   const [count, setCount] = useState(0);
   const [loading, setLoading] = useState(false);
 
   const q = searchParams?.q || "";
   const page = searchParams?.page || 1;
 
-  const handleDeleteUser = (userId) => {
+  const handleDeleteUser = (bookId) => {
     setLoading(true);
     axios
-      .delete(`http://localhost:4000/dashboard/students/${userId}`)
+      .delete(`http://localhost:4000/dashboard/books/${bookId}`)
       .then((response) => {
         // console.log(response.data);
-        setStudents((prevStudents) =>
-          prevStudents.filter((user) => user._id !== userId)
+        setBooks((prevBooks) =>
+          prevBooks.filter((book) => book._id !== bookId)
         );
         setLoading(false);
         Swal.fire({
           title: "Done",
-          text: "Student has been deleted successfully.",
+          text: "Book has been deleted successfully.",
           icon: "success",
           confirmButtonColor: "#D6465B",
         });
@@ -40,16 +41,16 @@ const Page = ({ searchParams }) => {
   };
 
   useEffect(() => {
-    fetchStudents();
+    fetchBooks();
   }, [page, q]);
 
-  const fetchStudents = () => {
+  const fetchBooks = () => {
     setLoading(true);
     axios
-      .get(`http://localhost:4000/dashboard/students/?q=${q}&page=${page}`, {})
+      .get(`http://localhost:4000/dashboard/books/?q=${q}&page=${page}`, {})
       .then((response) => {
         setLoading(false);
-        setStudents(response.data.users);
+        setBooks(response.data.books);
         setCount(response.data.count);
         // console.log(response.data);
       })
@@ -65,49 +66,49 @@ const Page = ({ searchParams }) => {
   return (
     <div className={styles.container}>
       <div className={styles.top}>
-        <Search placeholder="Search through reg no./roll no." />
-        <Link href="/dashboard/students/add">
-          <button className={styles.addButton}>Add New Student</button>
+        <IoBookSharp />
+        <Link href="/dashboard/books/add">
+          <button className={styles.addButton}>Add New Books</button>
         </Link>
       </div>
       <table className={styles.table}>
         <thead>
           <tr>
-            <td>Name</td>
-            <td>Email</td>
-            <td>Reg no./Roll no.</td>
-            <td>Book issued</td>
+            <td>Book Name</td>
+            <td>Author</td>
+            <td>Publication</td>
+            <td>Quantity</td>
             <td>Action</td>
           </tr>
         </thead>
         <tbody>
-          {students.map((user) => (
-            <tr key={user._id}>
+          {books.map((book) => (
+            <tr key={book._id}>
               <td>
                 <div className={styles.user}>
                   <Image
-                    src={"/noavatar.png"}
+                    src={"/book.png"}
                     alt=""
                     width={40}
                     height={40}
                     className={styles.userImage}
                   />
-                  {user.name}
+                  {book.name}
                 </div>
               </td>
-              <td>{user.email}</td>
-              <td>{user.reg_roll}</td>
-              <td>{user.total_books}</td>
+              <td>{book.author}</td>
+              <td>{book.publication}</td>
+              <td>{book.quantity}</td>
               <td>
                 <div className={styles.buttons}>
-                  <Link href={`/dashboard/students/${user._id}`}>
+                  <Link href={`/dashboard/books/${book._id}`}>
                     <button className={`${styles.button} ${styles.view}`}>
-                      View
+                      Update
                     </button>
                   </Link>
                   <div>
                     <button
-                      onClick={() => handleDeleteUser(user._id)}
+                      onClick={() => handleDeleteUser(book._id)}
                       className={`${styles.button} ${styles.delete}`}
                     >
                       Delete
