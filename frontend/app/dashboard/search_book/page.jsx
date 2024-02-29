@@ -2,10 +2,8 @@ import React from 'react'
 
 const page = () => {
   return (
-    <div>
-      Search book page...
-    </div>
-  )
+    <div className="grid h-screen place-items-center">Search book page...</div>
+  );
 }
 
 export default page

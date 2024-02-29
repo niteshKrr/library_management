@@ -4,7 +4,7 @@ const router = express.Router();
 
 router.get("/", async (req, res) => {
   const regex = new RegExp(req.query.q, "i");
-  const ITEM_PER_PAGE = 5;
+  const ITEM_PER_PAGE = 10;
 
   const page = parseInt(req.query.page) || 1;
 
@@ -20,15 +20,13 @@ router.get("/", async (req, res) => {
     // Handle the case when a search query is provided
     if (req.query.q && req.query.q.trim().length > 0) {
       query = {
-        $or: [{ reg_roll: { $regex: regex } }],
+        $or: [{ name: { $regex: regex } }],
       };
     }
 
     const count = await Books.find(query).count();
     const all_books = await Books.find(query);
-    const books = await Books.find(query)
-      .limit(ITEM_PER_PAGE)
-      .skip(skipCount);
+    const books = await Books.find(query).limit(ITEM_PER_PAGE).skip(skipCount);
 
     res.status(200).send({ count, books, all_books });
   } catch (error) {

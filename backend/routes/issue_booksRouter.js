@@ -21,8 +21,29 @@ router.post("/", async (req, res) => {
     const books_id = books.map((book) => book.code);
     const books_name = books.map((book) => book.name);
 
+    let booksNotFound = [];
+
     for (let i = 0; i < books_name.length; i++) {
       let book_in_db = await Books.findOne({ name: books_name[i] });
+      if (!book_in_db) {
+        // Book not found in the database, add to the booksNotFound array
+        booksNotFound.push(books_name[i]);
+        continue;
+      }
+    }
+
+    if (booksNotFound.length > 0) {
+      // If there are books not found, return an error
+      return res.status(403).json({ error: "Books not found in database", booksNotFound });
+    }
+
+    for (let i = 0; i < books_name.length; i++) {
+      let book_in_db = await Books.findOne({ name: books_name[i] });
+      let available_books = book_in_db.quantity;
+      // console.log("available_books :", available_books);
+      if (available_books < 1) {
+        return res.status(401).json({ error: "Insufficient book" });
+      }
       let issue_books = book_in_db.quantity - 1;
       await Books.updateOne(
         { _id: book_in_db._id },
@@ -52,6 +73,7 @@ router.post("/", async (req, res) => {
 
     sendEmail({
       name: user.name,
+      books_id: books_id,
       books_name: books_name,
       total_books: total_books,
       totalBooks,
@@ -67,6 +89,7 @@ router.post("/", async (req, res) => {
 
 const sendEmail = async ({
   name,
+  books_id,
   books_name,
   total_books,
   totalBooks,
@@ -84,12 +107,13 @@ const sendEmail = async ({
     from: '"LNJPIT Library🚀🔥" libraryLNJPIT@gmail.com',
     to: email,
     subject: `Books Issued - ${name}`,
-    html: generateEmailTemplate({ name, books_name, total_books, totalBooks }),
+    html: generateEmailTemplate({ name, books_name, books_id, total_books, totalBooks }),
   });
 };
 
 const generateEmailTemplate = ({
   name,
+  books_id,
   books_name,
   total_books,
   totalBooks,
@@ -105,7 +129,12 @@ const generateEmailTemplate = ({
         <h1>Hello, ${name}!</h1>
         <p>We are excited to let you know that you have successfully issued books from the Library LNJPIT.</p>
         
-        <p><strong>Issued Books:</strong></p>
+        <p><strong>Issued Books Id:</strong></p>
+        <ul>
+          ${books_id.map((book) => `<li>${book}</li>`).join("")}
+        </ul>
+
+        <p><strong>Issued Books Names:</strong></p>
         <ul>
           ${books_name.map((book) => `<li>${book}</li>`).join("")}
         </ul>

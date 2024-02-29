@@ -20,7 +20,7 @@ const About = () => {
           sequence={[
             "Welcome... 🤔",
             2000,
-            `Creativity Meets Celebration!\n\nYour Event, Your Story!\n\nTalents Converge, Passions Thrive!`,
+            `Central repository for diverse resources!\n\nQuiet space for study and research!\n\nSafeguards cultural heritage and historical knowledge!`,
             2000,
           ]}
           // wrapper="span"
@@ -30,13 +30,13 @@ const About = () => {
         />
       </div>
       <div className="flex justify-center mt-44">
-        <div className={styles.updateButton}>
+        {/* <div className={styles.updateButton}>
           <Link href="/">
             <button>Update Info</button>
           </Link>
-        </div>
+        </div> */}
         <div className={styles.adminButton}>
-          <Link href="/dashboard">
+          <Link href="/login">
             <button>Admin Access</button>
           </Link>
         </div>

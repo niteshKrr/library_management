@@ -5,7 +5,6 @@ import styles from "../../components/dashboard/users/users.module.css";
 import Image from "next/image";
 import Link from "next/link";
 import Pagination from "@/app/components/dashboard/pagination/Pagination";
-import { IoBookSharp } from "react-icons/io5";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
@@ -14,6 +13,8 @@ const Page = ({ searchParams }) => {
   const [books, setBooks] = useState([]);
   const [count, setCount] = useState(0);
   const [loading, setLoading] = useState(false);
+
+  // console.log("books :", books);
 
   const q = searchParams?.q || "";
   const page = searchParams?.page || 1;
@@ -66,7 +67,7 @@ const Page = ({ searchParams }) => {
   return (
     <div className={styles.container}>
       <div className={styles.top}>
-        <IoBookSharp />
+        <Search placeholder="Search through book name..." />
         <Link href="/dashboard/books/add">
           <button className={styles.addButton}>Add New Books</button>
         </Link>

@@ -4,20 +4,28 @@ import Card from "../components/dashboard/card/Card";
 import Chart from "../components/dashboard/chart/Chart";
 import styles from "../components/dashboard/dashboard.module.css";
 import Rightbar from "../components/dashboard/rightbar/Rightbar";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import axios from "axios";
 
-
-const Page = () => {
+const Page = ({ searchParams }) => {
   const [students, setStudents] = useState([]);
+  const [books, setBooks] = useState([]);
   const [count, setCount] = useState(0);
   const [loading, setLoading] = useState(false);
 
+  const q = searchParams?.q || "";
+  const page = searchParams?.page || 1;
+
   let total_issued_books = 0;
-  for (let i = 0; i < students.length; i++){
+  for (let i = 0; i < students.length; i++) {
     total_issued_books += students[i].total_books;
   }
- 
+
+  let total_books = 0;
+  for (let i = 0; i < books.length; i++) {
+    total_books += parseInt(books[i].quantity);
+  }
+
   const cards = [
     {
       id: 1,
@@ -32,13 +40,29 @@ const Page = () => {
     {
       id: 3,
       title: "Total Books",
-      number: 5642,
+      number: total_books,
     },
   ];
 
   useEffect(() => {
     fetchStudents();
+    fetchBooks();
   }, []);
+
+  const fetchBooks = () => {
+    setLoading(true);
+    axios
+      .get(`http://localhost:4000/dashboard/books/?q=${q}&page=${page}`, {})
+      .then((response) => {
+        setLoading(false);
+        setBooks(response.data.all_books);
+        // console.log(response.data);
+      })
+      .catch((err) => {
+        setLoading(false);
+        console.log(err);
+      });
+  };
 
   const fetchStudents = () => {
     setLoading(true);
@@ -64,10 +88,12 @@ const Page = () => {
         <div className={styles.main}>
           <div className={styles.cards}>
             {cards.map((item) => (
-            <Card item={item} key={item.id} />
+              <Card item={item} key={item.id} />
             ))}
           </div>
-          <Chart />
+          {/* <Suspense fallback={<Loading />}> */}
+            <Chart />
+          {/* </Suspense> */}
         </div>
         <div className={styles.side}>
           <Rightbar />

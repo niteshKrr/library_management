@@ -4,7 +4,7 @@ const router = express.Router();
 
 router.get("/", async (req, res) => {
   const regex = new RegExp(req.query.q, "i");
-  const ITEM_PER_PAGE = 5;
+  const ITEM_PER_PAGE = 10;
 
   const page = parseInt(req.query.page) || 1;
 

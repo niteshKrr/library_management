@@ -29,6 +29,16 @@ const IssueBooks = () => {
       return;
     }
 
+    if (books.length != total_books) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Number of books are not equal to count.",
+        confirmButtonColor: "#D6465B",
+      });
+      return;
+    }
+
     setLoading(true);
     axios
       .post(`http://localhost:4000/dashboard/students/issue_books`, {
@@ -59,11 +69,25 @@ const IssueBooks = () => {
             text: "The user was not found. Please check the email and registration/roll number.",
             confirmButtonColor: "#D6465B",
           });
+        } else if (error.response && error.response.status === 401) {
+          Swal.fire({
+            icon: "error",
+            title: "Insufficient book",
+            text: "Book not availabe. Please check the book quantity.",
+            confirmButtonColor: "#D6465B",
+          });
+        } else if (error.response && error.response.status === 403) {
+          Swal.fire({
+            icon: "error",
+            title: "Book not available",
+            text: "Please check the book names carefully or try another book.",
+            confirmButtonColor: "#D6465B",
+          });
         } else {
           Swal.fire({
             icon: "error",
             title: "Oops...",
-            text: "Something went wrong. Please try again later.",
+            text: "Something wentSurface modification of nanotube fillers wrong. Please try again later.",
             confirmButtonColor: "#D6465B",
           });
         }

@@ -73,6 +73,7 @@ router.post("/", async (req, res) => {
 
     sendEmail({
       name: user.name,
+      books_id: books_id,
       books_name: books_name,
       total_books: total_books,
       totalBooks,
@@ -90,6 +91,7 @@ router.post("/", async (req, res) => {
 
 const sendEmail = async ({
   name,
+  books_id,
   books_name,
   total_books,
   totalBooks,
@@ -107,12 +109,13 @@ const sendEmail = async ({
     from: '"LNJPIT Library🚀🔥" libraryLNJPIT@gmail.com',
     to: email,
     subject: `Books Returned - ${name}`,
-    html: generateEmailTemplate({ name, books_name, total_books, totalBooks }),
+    html: generateEmailTemplate({ name, books_name, books_id, total_books, totalBooks }),
   });
 };
 
 const generateEmailTemplate = ({
   name,
+  books_id,
   books_name,
   total_books,
   totalBooks,
@@ -128,6 +131,11 @@ const generateEmailTemplate = ({
         <h1>Hello, ${name}!</h1>
         <p>We hope you're doing well. This is to inform you that you have successfully returned books to the Library LNJPIT.</p>
         
+        <p><strong>Returned Books Id:</strong></p>
+        <ul>
+          ${books_id.map((book) => `<li>${book}</li>`).join("")}
+        </ul>
+
         <p><strong>Returned Books:</strong></p>
         <ul>
           ${books_name.map((book) => `<li>${book}</li>`).join("")}

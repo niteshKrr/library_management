@@ -1,0 +1,28 @@
+version: "3.8"
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "3000:3000" # Adjust the port as needed
+    depends_on:
+      - backend
+    # Add other configurations specific to your frontend service
+
+  backend:
+    build:
+      context: ./backend
+    ports:
+      - "4000:4000" # Adjust the port as needed
+    # depends_on:
+    #   - database
+
+  # database:
+  #   image: mongo
+  #   ports:
+  #     - "6969:27017"
+    # environment:
+    #   - NODE_ENV=production
+    # Add other environment variables specific to your backend service
+    # Add other configurations specific to your backend service

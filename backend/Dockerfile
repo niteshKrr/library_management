@@ -6,12 +6,9 @@
 
 # Want to help us make this template better? Share your feedback here: https://forms.gle/ybq9Krt8jtBL3iCk7
 
-ARG NODE_VERSION=21.4.0
+ARG NODE_VERSION=18.0
 
 FROM node:${NODE_VERSION}-alpine
-
-# Use production node environment by default.
-ENV NODE_ENV production
 
 
 WORKDIR /app
@@ -28,9 +25,6 @@ RUN --mount=type=bind,source=package.json,target=package.json \
 
 # Copy the rest of the source files into the image.
 COPY . .
-
-# Expose the port that the application listens on.
-EXPOSE 4000
 
 # Run the application.
 CMD node index.js
