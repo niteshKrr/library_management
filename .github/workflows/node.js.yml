@@ -24,6 +24,10 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
+    - name: Debug Directory and Files
+      run: |
+        pwd
+        ls -l
     - name: Navigate to Backend Directory
       run: cd library_management/library_management/backend
     - run: npm ci
