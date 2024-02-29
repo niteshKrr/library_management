@@ -18,18 +18,18 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
-    - name: Navigate to Backend Directory
-      run: cd library_management/library_management/backend
     - uses: actions/checkout@v3
+    - name: Navigate to Backend Directory
+      run: cd backend
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-    - name: Debug Directory and Files
-      run: |
-        pwd
-        ls -l
+
     - run: npm ci
+    - run: |
+        touch .env
+        echo "${{ secrets.PROD_ENV_FILE }}" > .env
     - run: npm run build --if-present
     - run: pm2 restart index.js
